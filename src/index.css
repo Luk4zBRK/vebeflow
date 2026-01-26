@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design system for Vibe Flow - Modern gradients, smooth animations */
+
+@layer base {
+  :root {
+    /* Base colors */
+    --background: 39 39% 98%;
+    --foreground: 240 6% 10%;
+
+    /* Card system */
+    --card: 0 0% 100%;
+    --card-foreground: 240 6% 10%;
+
+    /* Interactive elements */
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 6% 10%;
+
+    /* Brand gradient colors */
+    --primary: 240 6% 10%;
+    --primary-foreground: 0 0% 98%;
+
+    --secondary: 240 5% 96%;
+    --secondary-foreground: 240 6% 10%;
+
+    --muted: 240 5% 96%;
+    --muted-foreground: 240 4% 46%;
+
+    --accent: 240 5% 96%;
+    --accent-foreground: 240 6% 10%;
+
+    /* Status colors */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* Interactive states */
+    --border: 240 6% 90%;
+    --input: 240 6% 90%;
+    --ring: 240 6% 10%;
+
+    /* Vibe Flow brand colors */
+    --brand-fuchsia: 320 91% 57%;
+    --brand-violet: 262 83% 58%;
+    --brand-sky: 200 98% 39%;
+    --brand-rose: 347 77% 50%;
+    --brand-orange: 25 95% 53%;
+    --brand-emerald: 142 71% 45%;
+    --brand-teal: 173 80% 40%;
+
+    /* Gradient definitions */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--brand-fuchsia)), hsl(var(--brand-violet)), hsl(var(--brand-sky)));
+    --gradient-warm: linear-gradient(135deg, hsl(var(--brand-rose)), hsl(var(--brand-orange)));
+    --gradient-cool: linear-gradient(135deg, hsl(var(--brand-sky)), hsl(var(--brand-violet)));
+    --gradient-success: linear-gradient(135deg, hsl(var(--brand-emerald)), hsl(var(--brand-teal)));
+
+    /* Background gradients */
+    --bg-gradient-subtle: radial-gradient(1200px 600px at -10% -20%, hsla(var(--brand-fuchsia), 0.15), transparent), radial-gradient(1000px 600px at 110% 20%, hsla(var(--brand-sky), 0.12), transparent), radial-gradient(800px 480px at 40% 120%, hsla(var(--brand-violet), 0.15), transparent);
+
+    /* Shadows */
+    --shadow-primary: 0 10px 30px -10px hsla(var(--brand-violet), 0.3);
+    --shadow-glow: 0 0 40px hsla(var(--brand-fuchsia), 0.2);
+    --shadow-card: 0 1px 3px hsla(240, 6%, 10%, 0.12), 0 1px 2px hsla(240, 6%, 10%, 0.24);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    --radius: 1rem;
+  }
+
+  .dark {
+    --background: 240 10% 4%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 4%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 4%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 6% 10%;
+    --secondary: 240 4% 16%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 4% 16%;
+    --muted-foreground: 240 5% 65%;
+    --accent: 240 4% 16%;
+    --accent-foreground: 0 0% 98%;
+    --border: 240 4% 16%;
+    --input: 240 4% 16%;
+    --ring: 240 5% 84%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-['Inter',system-ui,sans-serif] antialiased;
+    scroll-behavior: smooth;
+  }
+
+  html {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-mono);
+    letter-spacing: -0.025em;
+  }
+}
+
+@layer components {
+  /* Hero gradient background */
+  .hero-gradient {
+    background: var(--bg-gradient-subtle);
+  }
+
+  /* Animated gradient text */
+  .gradient-text {
+    background: var(--gradient-primary);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 200%;
+    animation: gradientShift 8s ease-in-out infinite;
+  }
+
+  .gradient-text-soft {
+    background: linear-gradient(120deg, #e0f2ff, #ede9fe, #ffe4f0, #ffffff, #e0f2ff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 200%;
+    animation: gradientShift 10s ease-in-out infinite;
+  }
+
+  /* Floating animation for decorative elements */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-float-delayed {
+    animation: float 6s ease-in-out infinite;
+    animation-delay: 2s;
+  }
+
+  /* Card hover effects */
+  .card-hover {
+    transition: var(--transition-smooth);
+  }
+
+  .card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-primary);
+  }
+
+  /* Blur backdrop for glass effects */
+  .glass-effect {
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+}
+
+@layer utilities {
+  /* Animation keyframes */
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s ease-out forwards;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Hide Lovable badge completely */
+a[href*="lovable.dev"], 
+iframe[src*="lovable.dev"], 
+div[style*="Edit with Lovable"], 
+.lovable-badge,
+[data-lovable],
+div[id*="lovable"] {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  position: absolute !important;
+  z-index: -9999 !important;
+}
