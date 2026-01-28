@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Bot, Menu, X, Server, BookOpen, Zap } from "lucide-react";
+import { Bot, Menu, X, BookOpen } from "lucide-react";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -60,13 +60,6 @@ const Header = () => {
               </button>
             ))}
             <button
-              onClick={() => navigate('/vps-generator')}
-              className="font-medium text-purple-600 hover:text-purple-700 transition-colors flex items-center gap-1"
-            >
-              <Server className="h-4 w-4" />
-              Gerador VPS
-            </button>
-            <button
               onClick={() => navigate('/blog')}
               className="font-medium text-blue-600 hover:text-blue-700 transition-colors flex items-center gap-1"
             >
@@ -116,13 +109,6 @@ const Header = () => {
                   {item.label}
                 </button>
               ))}
-              <button
-                onClick={() => { setMobileMenuOpen(false); navigate('/vps-generator'); }}
-                className="px-1 py-2 rounded-md hover:bg-accent font-medium text-left text-purple-600 flex items-center gap-2"
-              >
-                <Server className="h-4 w-4" />
-                Gerador VPS
-              </button>
               <button
                 onClick={() => { setMobileMenuOpen(false); navigate('/blog'); }}
                 className="px-1 py-2 rounded-md hover:bg-accent font-medium text-left text-blue-600 flex items-center gap-2"

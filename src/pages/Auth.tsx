@@ -7,6 +7,8 @@ import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { LogIn, ArrowLeft, UserPlus, MessageCircle } from 'lucide-react';
+import TurnstileCaptcha from '@/components/TurnstileCaptcha';
+import { useToast } from '@/hooks/use-toast';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -15,22 +17,44 @@ const Auth = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('login');
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   
   const { signIn, signUp, user } = useAuth();
   const navigate = useNavigate();
+  const { toast } = useToast();
 
+  // Redirecionar usuário já logado para dashboard
   useEffect(() => {
     if (user) {
-      navigate('/');
+      navigate('/dashboard');
     }
-  }, [user, navigate]);
+  }, [user]); // Removido navigate das dependências para evitar loop
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // CAPTCHA é opcional - se não estiver configurado, permite login sem ele
+    if (!captchaToken && import.meta.env.VITE_TURNSTILE_SITE_KEY) {
+      toast({
+        title: "Verificação necessária",
+        description: "Por favor, complete a verificação CAPTCHA",
+        variant: "destructive"
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      await signIn(email, password);
+      const { error } = await signIn(email, password, captchaToken || undefined);
+      
+      if (!error) {
+        // Redirecionar para dashboard após login bem-sucedido
+        navigate('/dashboard');
+      }
+      
+      // Reset captcha após tentativa
+      setCaptchaToken(null);
     } finally {
       setIsLoading(false);
     }
@@ -64,6 +88,29 @@ const Auth = () => {
     setPassword('');
     setFullName('');
     setConfirmPassword('');
+    setCaptchaToken(null);
+  };
+
+  const handleCaptchaVerify = (token: string) => {
+    setCaptchaToken(token);
+  };
+
+  const handleCaptchaError = () => {
+    setCaptchaToken(null);
+    toast({
+      title: "Erro no CAPTCHA",
+      description: "Houve um erro na verificação. Tente novamente.",
+      variant: "destructive"
+    });
+  };
+
+  const handleCaptchaExpire = () => {
+    setCaptchaToken(null);
+    toast({
+      title: "CAPTCHA expirado",
+      description: "A verificação expirou. Por favor, complete novamente.",
+      variant: "destructive"
+    });
   };
 
   return (
@@ -133,7 +180,19 @@ const Auth = () => {
                       placeholder="••••••••"
                     />
                   </div>
-                  <Button type="submit" className="w-full" disabled={isLoading}>
+                  
+                  {/* Cloudflare Turnstile CAPTCHA */}
+                  <TurnstileCaptcha
+                    onVerify={handleCaptchaVerify}
+                    onError={handleCaptchaError}
+                    onExpire={handleCaptchaExpire}
+                  />
+                  
+                  <Button 
+                    type="submit" 
+                    className="w-full" 
+                    disabled={isLoading}
+                  >
                     {isLoading ? 'Entrando...' : 'Entrar'}
                   </Button>
                 </form>
