@@ -1,12 +1,14 @@
 import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Bot, Menu, X, BookOpen } from "lucide-react";
+import { Bot, Menu, X, BookOpen, User, LogOut } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, signOut } = useAuth();
 
   const scrollToSection = (sectionId: string) => {
     // Se não estiver na página inicial, navega para ela primeiro
@@ -78,6 +80,28 @@ const Header = () => {
               <Bot className="h-4 w-4 group-hover:scale-110 transition-transform" />
               Falar com a IA
             </Button>
+            
+            {user ? (
+              <Button
+                variant="ghost"
+                size="lg"
+                onClick={() => signOut()}
+                className="group"
+              >
+                <LogOut className="h-4 w-4 group-hover:scale-110 transition-transform" />
+                Sair
+              </Button>
+            ) : (
+              <Button
+                variant="default"
+                size="lg"
+                onClick={() => navigate('/auth')}
+                className="group"
+              >
+                <User className="h-4 w-4 group-hover:scale-110 transition-transform" />
+                Entrar
+              </Button>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -127,6 +151,28 @@ const Header = () => {
                   <Bot className="h-4 w-4" />
                   Falar com a IA
                 </Button>
+                
+                {user ? (
+                  <Button 
+                    variant="ghost" 
+                    size="lg"
+                    onClick={() => { setMobileMenuOpen(false); signOut(); }}
+                    className="w-full flex items-center justify-center gap-2"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Sair
+                  </Button>
+                ) : (
+                  <Button 
+                    variant="default" 
+                    size="lg"
+                    onClick={() => { setMobileMenuOpen(false); navigate('/auth'); }}
+                    className="w-full flex items-center justify-center gap-2"
+                  >
+                    <User className="h-4 w-4" />
+                    Entrar
+                  </Button>
+                )}
               </div>
             </div>
           </div>

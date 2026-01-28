@@ -1,4 +1,4 @@
-import { Plus, ExternalLink, Settings, User } from "lucide-react";
+import { ExternalLink, Settings } from "lucide-react";
 import { useSiteConfig } from "@/hooks/useSiteConfig";
 import { useAuth } from "@/hooks/useAuth";
 import { Link } from "react-router-dom";
@@ -153,38 +153,18 @@ const Footer = () => {
           <div className="mt-8 flex items-center justify-between text-xs text-muted-foreground">
             <span>{footerContent.copyright}</span>
             
-            <div className="flex items-center gap-1 opacity-30 hover:opacity-100 transition-opacity">
-              {!user && (
-                <Link to="/auth">
+            {user && isAdmin && (
+              <div className="flex items-center gap-1 opacity-30 hover:opacity-100 transition-opacity">
+                <Link to="/dashboard">
                   <button 
                     className="p-1 rounded hover:bg-muted/50 transition-colors"
-                    title="Entrar"
+                    title="Dashboard"
                   >
-                    <User className="h-3 w-3" />
+                    <Settings className="h-3 w-3" />
                   </button>
                 </Link>
-              )}
-              
-              {user && isAdmin && (
-                <>
-                  <Link to="/dashboard">
-                    <button 
-                      className="p-1 rounded hover:bg-muted/50 transition-colors"
-                      title="Dashboard"
-                    >
-                      <Settings className="h-3 w-3" />
-                    </button>
-                  </Link>
-                  <button 
-                    onClick={signOut}
-                    className="p-1 rounded hover:bg-muted/50 transition-colors"
-                    title="Sair"
-                  >
-                    <User className="h-3 w-3" />
-                  </button>
-                </>
-              )}
-            </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

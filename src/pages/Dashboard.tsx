@@ -35,7 +35,9 @@ import {
   Send,
   Circle,
   Copy,
-  Workflow
+  Workflow,
+  Plug,
+  Star
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
@@ -160,6 +162,8 @@ const Dashboard = () => {
         { id: 'portfolio', label: 'Portfólio', icon: Briefcase, description: 'Projetos', external: true, route: '/portfolio-manager' },
         { id: 'blog', label: 'Blog', icon: Newspaper, description: 'Gerenciar artigos', external: true, route: '/blog-manager' },
         { id: 'workflows' as ActiveSection, label: 'Workflows', icon: Workflow, description: 'Automações e processos', external: true, route: '/workflow-manager' },
+        { id: 'mcp-servers' as ActiveSection, label: 'MCP Servers', icon: Plug, description: 'Servidores MCP', external: true, route: '/mcp-manager' },
+        { id: 'sites' as ActiveSection, label: 'Sites Úteis', icon: Star, description: 'Sites recomendados', external: true, route: '/sites-manager' },
         { id: 'newsletter', label: 'Newsletter', icon: Send, description: 'Lista de emails' },
       ]
     },
