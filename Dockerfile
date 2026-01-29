@@ -12,6 +12,16 @@ RUN npm ci
 # Copiar código fonte
 COPY . .
 
+# Argumentos de build (recebidos do CI/CD ou docker build --build-arg)
+ARG VITE_TURNSTILE_SITE_KEY
+ARG VITE_SUPABASE_URL
+ARG VITE_SUPABASE_PUBLISHABLE_KEY
+
+# Definir variáveis de ambiente para o build do Vite
+ENV VITE_TURNSTILE_SITE_KEY=$VITE_TURNSTILE_SITE_KEY
+ENV VITE_SUPABASE_URL=$VITE_SUPABASE_URL
+ENV VITE_SUPABASE_PUBLISHABLE_KEY=$VITE_SUPABASE_PUBLISHABLE_KEY
+
 # Build da aplicação
 RUN npm run build
 
